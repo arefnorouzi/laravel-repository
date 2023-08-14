@@ -1,39 +1,41 @@
 <?php
 
+use App\Models\Category;
+
 class CategoryRepository implements CategoryInterface
 {
     public function get_items_with_trash()
     {
-        //todo
+        return Category::withTrashed()->all();
     }
 
     public function get_items()
     {
-        //todo
+        return Category::all();
     }
 
     public function find_item($id)
     {
-        //todo
+        return Category::findOrFail($id);
     }
 
     public function find_item_with_trash($id)
     {
-        //todo
+        return Category::withTrashed()->findOrFail($id);
     }
 
     public function store_item($data)
     {
-        //todo
+        return Category::create($data);
     }
 
     public function update_item($data, $id)
     {
-        //todo
+        return Category::whereId($id)->update($data);
     }
 
     public function delete_item($id)
     {
-        //todo
+        return Category::destroy($id);
     }
 }
