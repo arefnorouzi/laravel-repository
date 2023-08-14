@@ -109,6 +109,8 @@ return [
     |
     */
 
+    //For Persian Faker
+    //'faker_locale' => 'fa_IR',
     'faker_locale' => 'en_US',
 
     /*
