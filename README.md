@@ -4,12 +4,12 @@ A simple Laravel project with repository design pattern
 
 ## Usage
 - Clone Project From Git
-- cd laravel-repository
-- Run composer update
-- Run cp .env.example .env
-- Enter Your Database Info
-- Run ```sh php artisan migrate --seed```
-- Run php artisan serve
+- Run ```cd laravel-repository```
+- Run ```composer update```
+- Run ```cp .env.example .env```
+- Enter Your Database Info in ```.env``` File
+- Run ```php artisan migrate --seed```
+- Run ```php artisan serve```
 
 I used sqlite db in this project. You can use any database like (Mysql, Postgres)
 
