@@ -10,4 +10,5 @@ interface CategoryInterface
     public function update_item($data, $id);
     public function delete_item($id);
     public function category_with_posts($id);
+    public function select_items();
 }

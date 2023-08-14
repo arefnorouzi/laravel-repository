@@ -45,4 +45,9 @@ class CategoryRepository implements CategoryInterface
             ->with('posts:id,title,slug,category_id')
             ->paginate(10);
     }
+
+    public function select_items()
+    {
+        return Category::get(['id','title']);
+    }
 }
