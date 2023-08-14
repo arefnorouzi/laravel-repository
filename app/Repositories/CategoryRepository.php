@@ -6,12 +6,12 @@ class CategoryRepository implements CategoryInterface
 {
     public function get_items_with_trash()
     {
-        return Category::withTrashed()->all();
+        return Category::withTrashed()->paginate(10);
     }
 
     public function get_items()
     {
-        return Category::all();
+        return Category::paginate(10);
     }
 
     public function find_item($id)
@@ -37,5 +37,12 @@ class CategoryRepository implements CategoryInterface
     public function delete_item($id)
     {
         return Category::destroy($id);
+    }
+
+    public function category_with_posts($id)
+    {
+        return Category::whereId($id)
+            ->with('posts:id,title,slug,category_id')
+            ->paginate(10);
     }
 }
