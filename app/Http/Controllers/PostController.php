@@ -97,7 +97,7 @@ class PostController extends Controller
             ],400);
         }
         return response()->json([
-            'message' => 'New item added successfully'
+            'message' => 'Item updated successfully'
         ]);
     }
 

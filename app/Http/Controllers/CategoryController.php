@@ -76,7 +76,7 @@ class CategoryController extends Controller
     {
         $request = $request->validated();
         try {
-            $category = $this->category->update_item($request, $id);
+            $this->category->update_item($request, $id);
         }
         catch (\Exception $e)
         {
@@ -86,8 +86,7 @@ class CategoryController extends Controller
             ],400);
         }
         return response()->json([
-            'message' => 'New item added successfully',
-            'category' => $category
+            'message' => 'Item updated successfully',
         ]);
     }
 
