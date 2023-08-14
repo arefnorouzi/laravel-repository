@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Category\StoreCategoryRequest;
+use App\Http\Requests\Category\UpdateCategoryRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -51,14 +53,42 @@ class CategoryController extends Controller
         //todo
     }
 
-    public function store()
+    public function store(StoreCategoryRequest $request): object
     {
-        //todo
+        $request = $request->validated();
+        try {
+            $category = $this->category->store_item($request);
+        }
+        catch (\Exception $e)
+        {
+            Log::error($e->getMessage());
+            return response()->json([
+                'message' => 'Error in store item'
+            ],400);
+        }
+        return response()->json([
+            'message' => 'New item added successfully',
+            'category' => $category
+        ], 201);
     }
 
-    public function update()
+    public function update(UpdateCategoryRequest $request, $id): object
     {
-        //todo
+        $request = $request->validated();
+        try {
+            $category = $this->category->update_item($request, $id);
+        }
+        catch (\Exception $e)
+        {
+            Log::error($e->getMessage());
+            return response()->json([
+                'message' => 'Error in update item'
+            ],400);
+        }
+        return response()->json([
+            'message' => 'New item added successfully',
+            'category' => $category
+        ]);
     }
 
     public function destroy($id): object
