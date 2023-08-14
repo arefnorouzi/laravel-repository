@@ -15,7 +15,6 @@ return new class extends Migration
             $table->smallIncrements('id')->unsigned();
             $table->string('title', 100);
             $table->string('slug', 100);
-            $table->timestamps();
             $table->softDeletes();
         });
     }
