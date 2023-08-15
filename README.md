@@ -8,6 +8,7 @@ A simple Laravel project with repository design pattern
 - Run ```composer update```
 - Run ```cp .env.example .env```
 - Enter Your Database Info in ```.env``` File
+- Run ```php artisan key:generate```
 - Run ```php artisan migrate --seed```
 - Run ```php artisan serve```
 
