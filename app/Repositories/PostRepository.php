@@ -1,4 +1,6 @@
 <?php
+namespace App\Repositories;
+use App\Interfaces\PostInterface;
 use App\Models\Post;
 class PostRepository implements PostInterface
 {
@@ -20,21 +22,6 @@ class PostRepository implements PostInterface
     public function find_item_with_trash($id)
     {
         return Post::withTrashed()->findOrFail($id);
-    }
-
-    public function store_item($data)
-    {
-        return Post::create($data);
-    }
-
-    public function update_item($data, $id)
-    {
-        return Post::whereId($id)->update($data);
-    }
-
-    public function delete_item($id)
-    {
-        return Post::destroy($id);
     }
 
     public function posts_with_category_and_author()

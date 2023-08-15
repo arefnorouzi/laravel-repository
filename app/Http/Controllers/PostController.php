@@ -4,16 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
+use App\Interfaces\CategoryInterface;
+use App\Interfaces\PostInterface;
+use App\Interfaces\WritePostInterface;
 use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
-    private \PostInterface $post;
-    private \CategoryInterface $category;
+    private PostInterface $post;
+    private WritePostInterface $write_post;
+    private CategoryInterface $category;
 
-    public function __construct(\PostInterface $post, \CategoryInterface $category)
+    public function __construct(PostInterface $post, WritePostInterface $write_post, CategoryInterface $category)
     {
         $this->post = $post;
+        $this->write_post = $write_post;
         $this->category = $category;
     }
 
@@ -68,7 +73,7 @@ class PostController extends Controller
     {
         $request = $request->validated();
         try {
-            $post = $this->post->store_item($request);
+            $post = $this->write_post->store_item($request);
         }
         catch (\Exception $e)
         {
@@ -87,7 +92,7 @@ class PostController extends Controller
     {
         $request = $request->validated();
         try {
-            $this->post->update_item($request, $id);
+            $this->write_post->update_item($request, $id);
         }
         catch (\Exception $e)
         {
@@ -104,7 +109,7 @@ class PostController extends Controller
     public function destroy($id): object
     {
         try {
-            $this->post->delete_item($id);
+            $this->write_post->delete_item($id);
         }
         catch (\Exception $e)
         {

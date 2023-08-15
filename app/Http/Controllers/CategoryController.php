@@ -4,16 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
+use App\Interfaces\CategoryInterface;
+use App\Interfaces\WriteCategoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
-    private \CategoryInterface $category;
+    private CategoryInterface $category;
+    private WriteCategoryInterface $write_category;
 
-    public function __construct(\CategoryInterface $category)
+    public function __construct(CategoryInterface $category, WriteCategoryInterface $write_category)
     {
         $this->category = $category;
+        $this->write_category = $write_category;
     }
 
     public function index(): object
@@ -57,7 +61,7 @@ class CategoryController extends Controller
     {
         $request = $request->validated();
         try {
-            $category = $this->category->store_item($request);
+            $category = $this->write_category->store_item($request);
         }
         catch (\Exception $e)
         {
@@ -76,7 +80,7 @@ class CategoryController extends Controller
     {
         $request = $request->validated();
         try {
-            $this->category->update_item($request, $id);
+            $this->write_category->update_item($request, $id);
         }
         catch (\Exception $e)
         {
@@ -93,7 +97,7 @@ class CategoryController extends Controller
     public function destroy($id): object
     {
         try {
-            $this->category->delete_item($id);
+            $this->write_category->delete_item($id);
         }
         catch (\Exception $e)
         {

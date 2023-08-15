@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Interfaces\PostInterface;
 use Illuminate\Support\Facades\Log;
 
 class PostApiController extends Controller
 {
-    private \PostInterface $post;
+    private PostInterface $post;
 
-    public function __construct(\PostInterface $post)
+    public function __construct(PostInterface $post)
     {
         $this->post = $post;
     }
