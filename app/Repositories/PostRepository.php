@@ -27,7 +27,7 @@ class PostRepository implements PostInterface
     public function posts_with_category_and_author()
     {
         return Post::orderby('id','desc')
-            ->with(['category:id,title','user:id,name'])
+            ->with(['category:id,title','author:id,name'])
             ->paginate(10, ['id', 'title', 'slug', 'category_id', 'user_id']);
     }
 
