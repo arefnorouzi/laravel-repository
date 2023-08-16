@@ -10,10 +10,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group(['as' => 'api.'], function (){
+    //api routes
+    Route::resources([
+        'category' => CategoryController::class,
+        'post' => PostController::class
+    ]);
 
-Route::resources([
-    'category' => CategoryController::class,
-    'post' => PostController::class
-]);
+    Route::get('/posts', [PostApiController::class, 'posts'])->name('recent-posts');
 
-Route::get('/posts', [PostApiController::class, 'posts'])->name('recent-posts');
+});
+
