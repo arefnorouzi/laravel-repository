@@ -15,7 +15,7 @@ A simple Laravel project with repository design pattern
 I used sqlite db in this project. You can use any databases like (Mysql, Postgres)
 
 
-## How to change Mysql Database?
+## How to use Mysql Database?
 - 1: Create a database (DB Name: ```laravel_repository```)
 - 2: In ```.env``` File, set below parameters
 
