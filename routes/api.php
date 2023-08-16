@@ -10,7 +10,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::group(['as' => 'api.'], function (){
+Route::group(['as' => 'api.', 'middleware' => ['XssProtector']], function (){
     //api routes
     Route::resources([
         'category' => CategoryController::class,
