@@ -9,16 +9,18 @@ use Illuminate\Support\Facades\Log;
 class PostApiController extends Controller
 {
     private PostInterface $post;
+    private int $paginate_count;
 
     public function __construct(PostInterface $post)
     {
         $this->post = $post;
+        $this->paginate_count = 10;
     }
 
     public function posts(): object
     {
         try {
-            $posts = $this->post->posts_with_category_and_author();
+            $posts = $this->post->posts_with_category_and_author($this->paginate_count);
         }
         catch (\Exception $e)
         {

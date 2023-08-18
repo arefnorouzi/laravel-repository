@@ -3,22 +3,15 @@
 namespace App\Repositories;
 
 use App\Interfaces\WritePostInterface;
+use App\Abstracts\WriteAbstractRepository;
 use App\Models\Post;
 
-class WritePostRepository implements WritePostInterface
+class WritePostRepository extends WriteAbstractRepository implements WritePostInterface
 {
-    public function store_item($data)
-    {
-        return Post::create($data);
-    }
+    protected Post $model;
 
-    public function update_item($data, $id)
+    public function __construct(Post $model)
     {
-        return Post::whereId($id)->update($data);
-    }
-
-    public function delete_item($id)
-    {
-        return Post::destroy($id);
+        $this->model = $model;
     }
 }

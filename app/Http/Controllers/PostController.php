@@ -14,18 +14,20 @@ class PostController extends Controller
     private PostInterface $post;
     private WritePostInterface $write_post;
     private CategoryInterface $category;
+    private int $paginate_count;
 
     public function __construct(PostInterface $post, WritePostInterface $write_post, CategoryInterface $category)
     {
         $this->post = $post;
         $this->write_post = $write_post;
         $this->category = $category;
+        $this->paginate_count = 10;
     }
 
     public function index(): object
     {
         try {
-            $posts = $this->post->get_items_with_trash();
+            $posts = $this->post->get_items_with_trash($this->paginate_count, ['id','title','deleted_at']);
         }
         catch (\Exception $e)
         {

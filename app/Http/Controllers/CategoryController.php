@@ -6,24 +6,26 @@ use App\Http\Requests\Category\StoreCategoryRequest;
 use App\Http\Requests\Category\UpdateCategoryRequest;
 use App\Interfaces\CategoryInterface;
 use App\Interfaces\WriteCategoryInterface;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class CategoryController extends Controller
 {
     private CategoryInterface $category;
     private WriteCategoryInterface $write_category;
+    private int $paginate_count;
 
     public function __construct(CategoryInterface $category, WriteCategoryInterface $write_category)
     {
         $this->category = $category;
         $this->write_category = $write_category;
+        $this->paginate_count = 10;
     }
 
     public function index(): object
     {
         try {
-            $categories = $this->category->get_items_with_trash();
+            $categories = $this->category
+                ->get_items_with_trash($this->paginate_count, ['id','title','deleted_at']);
         }
         catch (\Exception $e)
         {

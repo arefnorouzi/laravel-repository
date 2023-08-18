@@ -3,22 +3,15 @@
 namespace App\Repositories;
 
 use App\Interfaces\WriteCategoryInterface;
+use App\Abstracts\WriteAbstractRepository;
 use App\Models\Category;
 
-class WriteCategoryRepository implements WriteCategoryInterface
+class WriteCategoryRepository extends WriteAbstractRepository implements WriteCategoryInterface
 {
-    public function store_item($data)
-    {
-        return Category::create($data);
-    }
+    protected Category $model;
 
-    public function update_item($data, $id)
+    public function __construct(Category $model)
     {
-        return Category::whereId($id)->update($data);
-    }
-
-    public function delete_item($id)
-    {
-        return Category::destroy($id);
+        $this->model = $model;
     }
 }
