@@ -1,8 +1,8 @@
 <?php
 namespace App\Interfaces;
 
-interface CategoryInterface extends BaseInterface
+interface CategoryInterface
 {
-    public function category_with_posts($id, $count);
+    public function category_with_posts($id, $count, $columns);
     public function select_items();
 }

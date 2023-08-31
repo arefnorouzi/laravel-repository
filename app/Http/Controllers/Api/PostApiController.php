@@ -8,19 +8,18 @@ use Illuminate\Support\Facades\Log;
 
 class PostApiController extends Controller
 {
-    private PostInterface $post;
-    private int $paginate_count;
+    private PostInterface $postRepository;
 
-    public function __construct(PostInterface $post)
+    public function __construct(PostInterface $postRepository)
     {
-        $this->post = $post;
-        $this->paginate_count = 10;
+        $this->postRepository = $postRepository;
     }
 
     public function posts(): object
     {
         try {
-            $posts = $this->post->posts_with_category_and_author($this->paginate_count);
+            $posts = $this->postRepository
+                ->posts_with_category_and_author();
         }
         catch (\Exception $e)
         {
@@ -32,10 +31,11 @@ class PostApiController extends Controller
         ]);
     }
 
-    public function posts_in_category($category_id): object
+    public function posts_in_category(int $category_id): object
     {
         try {
-            $posts = $this->post->posts_in_category_with_author($category_id);
+            $posts = $this->postRepository
+                ->posts_in_category_with_author($category_id);
         }
         catch (\Exception $e)
         {

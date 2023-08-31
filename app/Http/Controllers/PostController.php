@@ -6,43 +6,59 @@ use App\Http\Requests\Post\StorePostRequest;
 use App\Http\Requests\Post\UpdatePostRequest;
 use App\Interfaces\CategoryInterface;
 use App\Interfaces\PostInterface;
-use App\Interfaces\WritePostInterface;
 use Illuminate\Support\Facades\Log;
 
-class PostController extends Controller
+class PostController extends BaseCrudController
 {
-    private PostInterface $post;
-    private WritePostInterface $write_post;
-    private CategoryInterface $category;
-    private int $paginate_count;
+    private PostInterface $repository;
+    private CategoryInterface $categoryRepository;
+    const COLUMNS = ['id', 'title', 'deleted_at'];
 
-    public function __construct(PostInterface $post, WritePostInterface $write_post, CategoryInterface $category)
+    public function __construct(PostInterface $repository, CategoryInterface $categoryRepository)
     {
-        $this->post = $post;
-        $this->write_post = $write_post;
-        $this->category = $category;
-        $this->paginate_count = 10;
+        $this->repository = $repository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     public function index(): object
     {
+        return parent::_index(self::COLUMNS);
+    }
+
+    public function store(StorePostRequest $request): object
+    {
+        $request = $request->validated();
+        //do something
+        return parent::_store($request);
+    }
+
+    public function update(UpdatePostRequest $request, $id): object
+    {
+        $request = $request->validated();
+        //do something
+        return parent::_update($request, $id);
+    }
+
+    public function create(): object
+    {
         try {
-            $posts = $this->post->get_items_with_trash($this->paginate_count, ['id','title','deleted_at']);
+            $categories = $this->categoryRepository->select_items();
         }
         catch (\Exception $e)
         {
-            Log::info($e->getMessage());
-            $posts = [];
+            Log::error($e->getMessage());
+            $categories = [];
         }
         return response()->json([
-            'posts' => $posts
+            'categories' => $categories
         ]);
     }
 
-    public function show($id): object
+    public function edit(int $id): object
     {
         try {
-            $post = $this->post->find_item_with_trash($id);
+            $model = $this->repository->find_by_id_with_trash($id);
+            $categories = $this->categoryRepository->select_items();
         }
         catch (\Exception $e)
         {
@@ -52,76 +68,8 @@ class PostController extends Controller
             ],404);
         }
         return response()->json([
-            'post' => $post
-        ]);
-    }
-
-    public function create()
-    {
-        try {
-            $categories = $this->category->select_items();
-        }
-        catch (\Exception $e)
-        {
-            Log::info($e->getMessage());
-            $categories = [];
-        }
-        return response()->json([
+            'model' => $model,
             'categories' => $categories
-        ]);
-    }
-
-    public function store(StorePostRequest $request): object
-    {
-        $request = $request->validated();
-        try {
-            $post = $this->write_post->store_item($request);
-        }
-        catch (\Exception $e)
-        {
-            Log::error($e->getMessage());
-            return response()->json([
-                'message' => 'Error in store item'
-            ],400);
-        }
-        return response()->json([
-            'message' => 'New item added successfully',
-            'post' => $post
-        ], 201);
-    }
-
-    public function update(UpdatePostRequest $request, $id): object
-    {
-        $request = $request->validated();
-        try {
-            $this->write_post->update_item($request, $id);
-        }
-        catch (\Exception $e)
-        {
-            Log::error($e->getMessage());
-            return response()->json([
-                'message' => 'Error in update item'
-            ],400);
-        }
-        return response()->json([
-            'message' => 'Item updated successfully'
-        ]);
-    }
-
-    public function destroy($id): object
-    {
-        try {
-            $this->write_post->delete_item($id);
-        }
-        catch (\Exception $e)
-        {
-            Log::error($e->getMessage());
-            return response()->json([
-                'message' => 'Error in delete item'
-            ],400);
-        }
-        return response()->json([
-            'message' => 'Item Deleted Successfully'
         ]);
     }
 }
