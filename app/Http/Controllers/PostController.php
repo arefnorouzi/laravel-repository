@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\Log;
 
 class PostController extends BaseCrudController
 {
-    private PostInterface $repository;
-    private CategoryInterface $categoryRepository;
+    protected PostInterface $repository;
+    protected CategoryInterface $categoryRepository;
     const COLUMNS = ['id', 'title', 'deleted_at'];
 
     public function __construct(PostInterface $repository, CategoryInterface $categoryRepository)

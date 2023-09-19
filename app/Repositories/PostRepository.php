@@ -13,14 +13,14 @@ class PostRepository extends AbstractCrud implements PostInterface
 
     public function posts_with_category_and_author()
     {
-        return Post::orderby('id','desc')
+        return $this->model->orderby('id','desc')
             ->with(['category:id,title','author:id,name'])
             ->paginate(10, ['id', 'title', 'slug', 'category_id', 'user_id']);
     }
 
     public function posts_in_category_with_author($category_id)
     {
-        return Post::where('category_id','=', $category_id)
+        return $this->model->where('category_id','=', $category_id)
             ->orderby('id','desc')
             ->with(['category:id,title','user:id,name'])
             ->paginate(10, ['id', 'title', 'slug', 'category_id', 'user_id']);
